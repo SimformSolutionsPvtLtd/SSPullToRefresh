@@ -1,35 +1,38 @@
-package com.example.pulltorefresh.tmp
+package com.simform.refresh
 
-interface IRefreshStatus {
+import android.content.Context
+import com.airbnb.lottie.LottieAnimationView
+
+abstract class SSAnimationView(context: Context): LottieAnimationView(context) {
     /**
      * When the content view has reached to the start point and refresh has been completed, view will be reset.
      */
-    fun reset()
+    abstract fun reset()
 
     /**
      * Refresh View is refreshing
      */
-    fun refreshing()
+    abstract fun refreshing()
 
     /**
      * refresh has been completed
      */
-    fun refreshComplete()
+    abstract fun refreshComplete()
 
     /**
      * Refresh View is dropped down to the refresh point
      */
-    fun pullToRefresh()
+    abstract fun pullToRefresh()
 
     /**
      * Refresh View is released into the refresh point
      */
-    fun releaseToRefresh()
+    abstract fun releaseToRefresh()
 
     /**
      * @param pullDistance The drop-down distance of the refresh View
      * @param pullProgress The drop-down progress of the refresh View and the pullProgress may be more than 1.0f
      * pullProgress = pullDistance / refreshTargetOffset
      */
-    fun pullProgress(pullDistance: Float, pullProgress: Float)
+    abstract fun pullProgress(pullDistance: Float, pullProgress: Float)
 }

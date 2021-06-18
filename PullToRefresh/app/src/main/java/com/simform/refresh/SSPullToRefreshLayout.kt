@@ -1,4 +1,4 @@
-package com.example.pulltorefresh.tmp
+package com.simform.refresh
 
 import android.content.Context
 import android.os.Build
@@ -13,13 +13,15 @@ import android.view.animation.DecelerateInterpolator
 import android.view.animation.Interpolator
 import android.view.animation.Transformation
 import android.widget.AbsListView
-import androidx.core.view.*
-import com.airbnb.lottie.LottieAnimationView
-import com.example.pulltorefresh.demo.DemoDragDistanceConverter
-import com.example.pulltorefresh.demo.DemoLottieView
+import androidx.core.view.MotionEventCompat
+import androidx.core.view.NestedScrollingChild
+import androidx.core.view.NestedScrollingChildHelper
+import androidx.core.view.NestedScrollingParent
+import androidx.core.view.NestedScrollingParentHelper
+import androidx.core.view.ViewCompat
 import kotlin.math.abs
 
-class CustomPullRefresh(context: Context?, attrs: AttributeSet? = null) :
+class SSPullToRefreshLayout(context: Context?, attrs: AttributeSet? = null) :
     ViewGroup(context, attrs), NestedScrollingParent, NestedScrollingChild {
 
     private val logTag = this.javaClass.name
@@ -64,9 +66,9 @@ class CustomPullRefresh(context: Context?, attrs: AttributeSet? = null) :
     private var mRefreshViewMeasured = false
     private var mRefreshStyle: RefreshStyle = RefreshStyle.NORMAL
     private var mTarget: View? = null
-    private var mRefreshView: View
-    private var mDragDistanceConverter: IDragDistanceConverter
-    private var mRefreshStatus: IRefreshStatus
+    private var mRefreshView: SSAnimationView
+    private var mDragDistanceConverter: SSDragDistanceConverter
+    private var mLottieAnimationAssetFileName: String = "lottie_rolling_dots.json"
 
     init {
         val metrics = resources.displayMetrics
@@ -78,18 +80,14 @@ class CustomPullRefresh(context: Context?, attrs: AttributeSet? = null) :
         isChildrenDrawingOrderEnabled = true
 
         // init mRefreshView
-        mRefreshView = DemoLottieView(getContext())
+        mRefreshView = DefaultAnimationView(getContext())
+        mRefreshView.setAnimation(mLottieAnimationAssetFileName)
         mRefreshView.visibility = GONE
-        if (mRefreshView is IRefreshStatus && mRefreshView is LottieAnimationView) {
-            mRefreshStatus = mRefreshView as IRefreshStatus
-        } else {
-            throw ClassCastException("The refreshView must implement the interface IRefreshStatus and LottieAnimationView")
-        }
         val layoutParams = LayoutParams(mRefreshViewSize, mRefreshViewSize)
         addView(mRefreshView, layoutParams)
 
         // init mDragDistanceConverter
-        mDragDistanceConverter = DemoDragDistanceConverter()
+        mDragDistanceConverter = SSDragDistanceConverter()
     }
 
     private var mOnRefreshListener: OnRefreshListener? = null
@@ -141,7 +139,7 @@ class CustomPullRefresh(context: Context?, attrs: AttributeSet? = null) :
 
         override fun onAnimationStart(animation: Animation) {
             mIsAnimatingToStart = true
-            mRefreshStatus.refreshing()
+            mRefreshView.refreshing()
         }
 
         override fun onAnimationRepeat(animation: Animation) {}
@@ -157,7 +155,7 @@ class CustomPullRefresh(context: Context?, attrs: AttributeSet? = null) :
 
         override fun onAnimationStart(animation: Animation) {
             mIsAnimatingToStart = true
-            mRefreshStatus.refreshComplete()
+            mRefreshView.refreshComplete()
         }
 
         override fun onAnimationRepeat(animation: Animation) {}
@@ -176,7 +174,7 @@ class CustomPullRefresh(context: Context?, attrs: AttributeSet? = null) :
     private fun reset() {
         setTargetOrRefreshViewToInitial()
         mCurrentTouchOffsetY = 0.0f
-        mRefreshStatus.reset()
+        mRefreshView.reset()
         mRefreshView.visibility = GONE
         mIsRefreshing = false
         mIsAnimatingToStart = false
@@ -194,20 +192,12 @@ class CustomPullRefresh(context: Context?, attrs: AttributeSet? = null) :
      * @param layoutParams the with is always the match_parent， no matter how you set
      * the height you need to set a specific value
      */
-    fun setRefreshView(refreshView: View?, layoutParams: ViewGroup.LayoutParams?) {
-        if (refreshView == null) {
-            throw NullPointerException("The refreshView can't be null")
-        }
+    fun setRefreshView(refreshView: SSAnimationView, layoutParams: ViewGroup.LayoutParams? = null) {
         if (mRefreshView === refreshView) {
             return
         }
         if (mRefreshView.parent != null) {
             (mRefreshView.parent as ViewGroup).removeView(mRefreshView)
-        }
-        if (refreshView is IRefreshStatus && refreshView is LottieAnimationView) {
-            mRefreshStatus = refreshView
-        } else {
-            throw ClassCastException("The refreshView must implement the interface IRefreshStatus and LottieAnimationView")
         }
         refreshView.visibility = GONE
         if (layoutParams == null) {
@@ -216,19 +206,24 @@ class CustomPullRefresh(context: Context?, attrs: AttributeSet? = null) :
             addView(refreshView, layoutParams)
         }
         mRefreshView = refreshView
+        mRefreshView.setAnimation(mLottieAnimationAssetFileName)
     }
 
-    fun setDragDistanceConverter(dragDistanceConverter: IDragDistanceConverter?) {
-        if (dragDistanceConverter == null) {
-            throw NullPointerException("The dragDistanceConverter can't be null")
-        }
+    fun setLottieAnimation(assetFileName: String) {
+        mLottieAnimationAssetFileName = assetFileName
+        mRefreshView.setAnimation(assetFileName)
+    }
+
+    fun setDragDistanceConverter(dragDistanceConverter: SSDragDistanceConverter) {
         mDragDistanceConverter = dragDistanceConverter
     }
 
-    fun setLottieAnimation(fileName: String) {
-        val rv = mRefreshView as LottieAnimationView
-        rv.setAnimation(fileName)
-        mRefreshView = rv
+    fun setRepeatCount(count: Int) {
+        mRefreshView.repeatCount = count
+    }
+
+    fun setRepeatMode(mode: Int) {
+        mRefreshView.repeatMode = mode
     }
 
     /**
@@ -864,14 +859,14 @@ class CustomPullRefresh(context: Context?, attrs: AttributeSet? = null) :
         if (!mIsRefreshing) {
             if (convertScrollOffset > refreshTargetOffset && !mIsFitRefresh) {
                 mIsFitRefresh = true
-                mRefreshStatus.pullToRefresh()
+                mRefreshView.pullToRefresh()
             } else if (convertScrollOffset <= refreshTargetOffset && mIsFitRefresh) {
                 mIsFitRefresh = false
-                mRefreshStatus.releaseToRefresh()
+                mRefreshView.releaseToRefresh()
             }
         }
         Log.i(logTag,
-            (targetOrRefreshViewOffsetY.toString() + " -- " + refreshTargetOffset + " -- " + convertScrollOffset + " -- " + mTargetOrRefreshViewOffsetY + " -- " + mRefreshTargetOffset)
+            ("$targetOrRefreshViewOffsetY -- $refreshTargetOffset -- $convertScrollOffset -- $mTargetOrRefreshViewOffsetY -- $mRefreshTargetOffset")
         )
         setTargetOrRefreshViewOffsetY((convertScrollOffset - mTargetOrRefreshViewOffsetY).toInt())
     }
@@ -928,11 +923,11 @@ class CustomPullRefresh(context: Context?, attrs: AttributeSet? = null) :
         }
         Log.i(logTag, "current offset$mTargetOrRefreshViewOffsetY")
         when (mRefreshStyle) {
-            RefreshStyle.FLOAT -> mRefreshStatus.pullProgress(
+            RefreshStyle.FLOAT -> mRefreshView.pullProgress(
                 mTargetOrRefreshViewOffsetY,
                 (mTargetOrRefreshViewOffsetY - mRefreshInitialOffset) / mRefreshTargetOffset
             )
-            else -> mRefreshStatus.pullProgress(
+            else -> mRefreshView.pullProgress(
                 mTargetOrRefreshViewOffsetY,
                 mTargetOrRefreshViewOffsetY / mRefreshTargetOffset
             )
