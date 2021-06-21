@@ -1,5 +1,6 @@
 package com.simform.refresh
 
+import android.animation.ValueAnimator
 import android.content.Context
 import android.os.Build
 import android.util.AttributeSet
@@ -19,6 +20,7 @@ import androidx.core.view.NestedScrollingChildHelper
 import androidx.core.view.NestedScrollingParent
 import androidx.core.view.NestedScrollingParentHelper
 import androidx.core.view.ViewCompat
+import com.airbnb.lottie.LottieDrawable
 import kotlin.math.abs
 
 class SSPullToRefreshLayout(context: Context?, attrs: AttributeSet? = null) :
@@ -91,8 +93,12 @@ class SSPullToRefreshLayout(context: Context?, attrs: AttributeSet? = null) :
     }
 
     private var mOnRefreshListener: OnRefreshListener? = null
-    private var mAnimateToStartInterpolator: Interpolator = DecelerateInterpolator(DECELERATE_INTERPOLATION_FACTOR)
-    private var mAnimateToRefreshInterpolator: Interpolator = DecelerateInterpolator(DECELERATE_INTERPOLATION_FACTOR)
+    private var mAnimateToStartInterpolator: Interpolator = DecelerateInterpolator(
+        DECELERATE_INTERPOLATION_FACTOR
+    )
+    private var mAnimateToRefreshInterpolator: Interpolator = DecelerateInterpolator(
+        DECELERATE_INTERPOLATION_FACTOR
+    )
     private val mAnimateToRefreshingAnimation: Animation = object : Animation() {
         override fun applyTransformation(interpolatedTime: Float, t: Transformation) {
             when (mRefreshStyle) {
@@ -218,12 +224,21 @@ class SSPullToRefreshLayout(context: Context?, attrs: AttributeSet? = null) :
         mDragDistanceConverter = dragDistanceConverter
     }
 
-    fun setRepeatCount(count: Int) {
-        mRefreshView.repeatCount = count
+    fun setRepeatCount(count: RepeatCount) {
+        mRefreshView.repeatCount = count.count
     }
 
-    fun setRepeatMode(mode: Int) {
-        mRefreshView.repeatMode = mode
+    fun setRepeatMode(mode: RepeatMode) {
+        mRefreshView.repeatMode = mode.mode
+    }
+
+    enum class RepeatCount(val count: Int) {
+        INFINITE(ValueAnimator.INFINITE)
+    }
+
+    enum class RepeatMode(val mode: Int) {
+        REPEAT(LottieDrawable.RESTART),
+        REVERSE(LottieDrawable.REVERSE)
     }
 
     /**
