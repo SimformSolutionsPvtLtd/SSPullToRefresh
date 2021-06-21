@@ -6,10 +6,7 @@ import android.os.Bundle
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.airbnb.lottie.LottieDrawable
 import com.example.pulltorefresh.R
-import com.simform.refresh.DefaultAnimationView
-import com.simform.refresh.SSDragDistanceConverter
 import com.simform.refresh.SSPullToRefreshLayout
 import kotlinx.android.synthetic.main.activity_main.cpr
 import kotlinx.android.synthetic.main.activity_main.rv
@@ -28,7 +25,7 @@ class MainActivity : AppCompatActivity() {
         title = "SSPullToRefresh"
 
         setUpRecyclerView()
-        cpr.setOnRefreshListener(object : SSPullToRefreshLayout.OnRefreshListener {
+        cpr.setOnRefreshListener(object : com.simform.refresh.SSPullToRefreshLayout.OnRefreshListener {
             override fun onRefresh() {
                 GlobalScope.launch {
                     delay(3000)
@@ -41,14 +38,14 @@ class MainActivity : AppCompatActivity() {
             }
         })
 
-        cpr.setDragDistanceConverter(SSDragDistanceConverter())
+        cpr.setDragDistanceConverter(com.simform.refresh.SSDragDistanceConverter())
         cpr.setLottieAnimation("lottie_isometric-plane.json")
         cpr.setRefreshView(
-            DefaultAnimationView(this),
+            com.simform.refresh.DefaultAnimationView(this),
             ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,300)
         )
-        cpr.setRepeatMode(LottieDrawable.RESTART)
-        cpr.setRepeatCount(ValueAnimator.INFINITE)
+        cpr.setRepeatMode(SSPullToRefreshLayout.RepeatMode.REPEAT)
+        cpr.setRepeatCount(SSPullToRefreshLayout.RepeatCount.INFINITE)
         cpr.setRefreshStyle(SSPullToRefreshLayout.RefreshStyle.NORMAL)
     }
 
