@@ -1,7 +1,7 @@
 # SSPullToRefresh
 ## Pull to Refresh with custom animations
 
-[![Build Status](https://travis-ci.org/joemccann/dillinger.svg?branch=master)](https://github.com/mobile-simformsolutions/SSPullToRefresh)
+[![Build Status](https://travis-ci.org/joemccann/dillinger.svg?branch=master)][git-repo-url]
 
 SSPullToRefresh uses lottie animations to render high quality animations on pull refresh.
 
@@ -16,7 +16,7 @@ SSPullToRefresh uses lottie animations to render high quality animations on pull
 
 | Default refreshView | customize animation |
 |--|--|
-| ![](camera_pic.gif) | ![](gallery_pic.gif) |
+| ![](default_view.gif) | ![](custom_anim.gif) |
 
 # How it works:
 
@@ -130,26 +130,26 @@ SSPullToRefresh uses lottie animations to render high quality animations on pull
                 ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,300)
         )
 ```
-* you can aslo provide only view without parameters, in that case refreshView will take MATCH_PARENT,70 width,hight respectively
+* You can aslo provide only view without parameters, in that case refreshView will take MATCH_PARENT,70 width,hight respectively
 ```kotlin
         ssPullRefresh.setRefreshView(MytAnimationView(this))
 ```
 
 # Other Library used:
-* [Lottie](https://github.com/airbnb/lottie-android)
+* [Lottie][lottie-repo-url]
 
-## Find this library useful? :heart:
-Support it by joining __[stargazers]()__ for this repository.⭐
+## Find this library useful? ❤️
+Support it by joining __[stargazers]__ for this repository.⭐
 
 ## 🤝 How to Contribute
 
 Whether you're helping us fix bugs, improve the docs, or a feature request, we'd love to have you! 💪
 
-Check out our [**Contributing Guide**]() for ideas on contributing.
+Check out our __[Contributing Guide]__ for ideas on contributing.
 
 ## Bugs and Feedback
 
-For bugs, feature requests, and discussion please use [GitHub Issues]().
+For bugs, feature requests, and discussion please use __[GitHub Issues]__.
 
 ## License
 
@@ -168,23 +168,8 @@ Copyright 2021 Simform Solutions
 
 [//]: # (These are reference links used in the body of this note and get stripped out when the markdown processor does its job. There is no need to format nicely because it shouldn't be seen. Thanks SO - http://stackoverflow.com/questions/4823468/store-comments-in-markdown-syntax)
 
-   [dill]: <https://github.com/joemccann/dillinger>
-   [git-repo-url]: <https://github.com/joemccann/dillinger.git>
-   [john gruber]: <http://daringfireball.net>
-   [df1]: <http://daringfireball.net/projects/markdown/>
-   [markdown-it]: <https://github.com/markdown-it/markdown-it>
-   [Ace Editor]: <http://ace.ajax.org>
-   [node.js]: <http://nodejs.org>
-   [Twitter Bootstrap]: <http://twitter.github.com/bootstrap/>
-   [jQuery]: <http://jquery.com>
-   [@tjholowaychuk]: <http://twitter.com/tjholowaychuk>
-   [express]: <http://expressjs.com>
-   [AngularJS]: <http://angularjs.org>
-   [Gulp]: <http://gulpjs.com>
-
-   [PlDb]: <https://github.com/joemccann/dillinger/tree/master/plugins/dropbox/README.md>
-   [PlGh]: <https://github.com/joemccann/dillinger/tree/master/plugins/github/README.md>
-   [PlGd]: <https://github.com/joemccann/dillinger/tree/master/plugins/googledrive/README.md>
-   [PlOd]: <https://github.com/joemccann/dillinger/tree/master/plugins/onedrive/README.md>
-   [PlMe]: <https://github.com/joemccann/dillinger/tree/master/plugins/medium/README.md>
-   [PlGa]: <https://github.com/RahulHP/dillinger/blob/master/plugins/googleanalytics/README.md>
+   [git-repo-url]: <https://github.com/SimformSolutionsPvtLtd/SSPullToRefresh.git>
+   [lottie-repo-url]: <https://github.com/airbnb/lottie-android.git>
+   [stargazers]: <https://www.google.com/>
+   [Contributing Guide]: <https://www.google.com/>
+   [GitHub Issues]: <https://github.com/SimformSolutionsPvtLtd/SSPullToRefresh/issues>
