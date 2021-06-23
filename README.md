@@ -16,7 +16,7 @@ SSPullToRefresh uses lottie animations to render high quality animations on pull
 
 | Default refreshView | Custom animation 1 | Custom animation 2 |
 |--|--| --|
-| ![](default_view.gif) | ![](custom_anim.gif) | ![](custom_anim2.gif) |
+| ![](default_anim.gif) | ![](custom_anim.gif) | ![](custom_anim2.gif) |
 
 # How it works:
 
@@ -36,7 +36,7 @@ SSPullToRefresh uses lottie animations to render high quality animations on pull
 
 ```groovy
     dependencies {
-        implementation 'com.github.SimformSolutionsPvtLtd:SSPullToRefresh:1.0'
+        implementation 'com.github.SimformSolutionsPvtLtd:SSPullToRefresh:1.1'
     }
 ```
 2. Wrap your refreshing view ( RecyclerView, listView etc..) with SSPullToRefreshLayout
@@ -173,7 +173,7 @@ Copyright 2021 Simform Solutions
 
    [git-repo-url]: <https://github.com/SimformSolutionsPvtLtd/SSPullToRefresh.git>
    [lottie-repo-url]: <https://github.com/airbnb/lottie-android.git>
-   [stargazers]: <https://www.google.com/>
-   [Contributing Guide]: <https://www.google.com/>
+   [stargazers]: <https://github.com/SimformSolutionsPvtLtd/SSPullToRefresh/stargazers>
+   [Contributing Guide]: <https://github.com/SimformSolutionsPvtLtd/SSPullToRefresh/blob/main/CONTRIBUTING.md>
    [GitHub Issues]: <https://github.com/SimformSolutionsPvtLtd/SSPullToRefresh/issues>
    [RecyclerRefreshLayout]: <https://github.com/dinuscxj/RecyclerRefreshLayout?utm_source=android-arsenal.com&utm_medium=referral&utm_campaign=3383>
