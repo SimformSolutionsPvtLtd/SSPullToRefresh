@@ -1,22 +1,22 @@
 # SSPullToRefresh
 ## Pull to Refresh with custom animations
 
-[![Build Status](https://travis-ci.org/joemccann/dillinger.svg?branch=master)][git-repo-url]
+[![Build Status](https://travis-ci.org/joemccann/dillinger.svg?branch=master)][git-repo-url] [![](https://jitpack.io/v/SimformSolutionsPvtLtd/SSPullToRefresh.svg)](https://jitpack.io/#SimformSolutionsPvtLtd/SSPullToRefresh) [![Kotlin Version](https://img.shields.io/badge/Kotlin-v1.5.0-blue.svg)](https://kotlinlang.org)  [![Platform](https://img.shields.io/badge/Platform-Android-green.svg?style=flat)](https://www.android.com/) [![API](https://img.shields.io/badge/API-21%2B-brightgreen.svg?style=flat)](https://android-arsenal.com/api?level=21)
 
 SSPullToRefresh uses lottie animations to render high quality animations on pull refresh.
 
 ## Features
 
-- simple and easy to use ( no complex animations to deal with )
-- customize the animation view by providing you own ( need to subclass SSAnimationView )
-- import lottie jason in assets folder and apply animation ( as simple as that )
-- customize repeateMode, repeateCount and Interpolators on different points of animations
+- Simple and easy to use ( no complex animations to deal with )
+- Customize the animation view by providing you own ( need to subclass SSAnimationView )
+- Import lottie jason in assets folder and apply animation ( as simple as that )
+- Customize repeateMode, repeateCount and Interpolators on different points of animations
 
 # 🎬 Preview
 
-| Default refreshView | customize animation |
-|--|--|
-| ![](default_view.gif) | ![](custom_anim.gif) |
+| Default refreshView | Custom animation 1 | Custom animation 2 |
+|--|--| --|
+| ![](default_view.gif) | ![](custom_anim.gif) | ![](custom_anim2.gif) |
 
 # How it works:
 
@@ -138,6 +138,9 @@ SSPullToRefresh uses lottie animations to render high quality animations on pull
 # Other Library used:
 * [Lottie][lottie-repo-url]
 
+### Credits:
+- This library was inspired by __[RecyclerRefreshLayout]__
+
 ## Find this library useful? ❤️
 Support it by joining __[stargazers]__ for this repository.⭐
 
@@ -173,3 +176,4 @@ Copyright 2021 Simform Solutions
    [stargazers]: <https://www.google.com/>
    [Contributing Guide]: <https://www.google.com/>
    [GitHub Issues]: <https://github.com/SimformSolutionsPvtLtd/SSPullToRefresh/issues>
+   [RecyclerRefreshLayout]: <https://github.com/dinuscxj/RecyclerRefreshLayout?utm_source=android-arsenal.com&utm_medium=referral&utm_campaign=3383>

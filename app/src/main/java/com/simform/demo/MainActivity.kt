@@ -38,7 +38,7 @@ class MainActivity : AppCompatActivity() {
         })
 
         ssPullRefresh.setDragDistanceConverter(com.simform.refresh.SSDragDistanceConverter())
-        ssPullRefresh.setLottieAnimation("lottie_isometric-plane.json")
+        ssPullRefresh.setLottieAnimation("lottie_clock.json")
         ssPullRefresh.setRefreshView(
             com.simform.refresh.DefaultAnimationView(this),
             ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,300)
