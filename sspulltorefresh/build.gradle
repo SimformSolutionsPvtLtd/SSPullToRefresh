@@ -9,7 +9,7 @@ android {
 
     defaultConfig {
 
-        minSdkVersion 16
+        minSdkVersion 17
         targetSdkVersion 30
         versionCode 1
         versionName "1.0"
@@ -42,6 +42,8 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
 
+    api 'pl.droidsonroids.gif:android-gif-drawable:1.2.22'
+
     // Lottie
-    implementation 'com.airbnb.android:lottie:3.7.0'
+    api 'com.airbnb.android:lottie:3.7.0'
 }

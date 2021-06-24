@@ -1,22 +1,32 @@
+<a href="https://www.simform.com/"><img src="https://github.com/SimformSolutionsPvtLtd/SSToastMessage/blob/master/simformBanner.png"></a>
 # SSPullToRefresh
 ## Pull to Refresh with custom animations
 
-[![Build Status](https://travis-ci.org/joemccann/dillinger.svg?branch=master)][git-repo-url] [![](https://jitpack.io/v/SimformSolutionsPvtLtd/SSPullToRefresh.svg)](https://jitpack.io/#SimformSolutionsPvtLtd/SSPullToRefresh) [![Kotlin Version](https://img.shields.io/badge/Kotlin-v1.5.0-blue.svg)](https://kotlinlang.org)  [![Platform](https://img.shields.io/badge/Platform-Android-green.svg?style=flat)](https://www.android.com/) [![API](https://img.shields.io/badge/API-21%2B-brightgreen.svg?style=flat)](https://android-arsenal.com/api?level=21)
+[![Build Status](https://travis-ci.org/joemccann/dillinger.svg?branch=master)][git-repo-url] [![](https://jitpack.io/v/SimformSolutionsPvtLtd/SSPullToRefresh.svg)](https://jitpack.io/#SimformSolutionsPvtLtd/SSPullToRefresh) [![Kotlin Version](https://img.shields.io/badge/Kotlin-v1.5.10-blue.svg)](https://kotlinlang.org)  [![Platform](https://img.shields.io/badge/Platform-Android-green.svg?style=flat)](https://www.android.com/) [![API](https://img.shields.io/badge/API-17%2B-brightgreen.svg?style=flat)](https://android-arsenal.com/api?level=17)
 
 SSPullToRefresh uses lottie animations to render high quality animations on pull refresh.
 
 ## Features
 
 - Simple and easy to use ( no complex animations to deal with )
-- Customize the animation view by providing you own ( need to subclass SSAnimationView )
+- Customize the animation view by providing your own custom RefreshView ( need to subclass SSAnimationView )
+- Set Gif animations in refresh view
 - Import lottie jason in assets folder and apply animation ( as simple as that )
 - Customize repeateMode, repeateCount and Interpolators on different points of animations
 
 # 🎬 Preview
 
-| Default refreshView | Custom animation 1 | Custom animation 2 |
-|--|--| --|
-| ![](default_anim.gif) | ![](custom_anim.gif) | ![](custom_anim2.gif) |
+| Default refreshView | Lottie animation 1 |
+|--|--|
+| ![](gif/default_anim.gif) | ![](gif/custom_anim.gif) |
+
+| Lottie animation 2 | Wave animation ( Custom class ) |
+|--|--|
+| ![](gif/custom_anim2.gif) | ![](gif/wave_anim.gif) |
+
+| Gif animation |
+|--|
+| ![](gif/gif_anim.gif) |
 
 # How it works:
 
@@ -36,7 +46,7 @@ SSPullToRefresh uses lottie animations to render high quality animations on pull
 
 ```groovy
     dependencies {
-        implementation 'com.github.SimformSolutionsPvtLtd:SSPullToRefresh:1.1'
+        implementation 'com.github.SimformSolutionsPvtLtd:SSPullToRefresh:1.2'
     }
 ```
 2. Wrap your refreshing view ( RecyclerView, listView etc..) with SSPullToRefreshLayout
@@ -81,7 +91,6 @@ SSPullToRefresh uses lottie animations to render high quality animations on pull
 
 * To customize SSPullToRefreshLayout, you can set a different lottie animation of your choice
 * you need to have .json file of you lottie animations in assets forlder of you app module
-
 ![](asset_folder.png)
 
 ```kotlin
@@ -98,22 +107,69 @@ SSPullToRefresh uses lottie animations to render high quality animations on pull
 ```
 * To customize the whole refresh view you need to inherit SSAnimationView for your custom class and override the methods needed
 ```kotlin
-    class MytAnimationView(context: Context): SSAnimationView(context) {
+    class WaveAnimation(context: Context): SSAnimationView(context) {
+        private var amplitude = 22f.toDp() // scale
+        private var speed = 0f
+        private val path = Path()
+        private var paint = Paint(Paint.ANTI_ALIAS_FLAG)
+        private var animator: ValueAnimator? = null
+
+        override fun onDraw(c: Canvas) = c.drawPath(path, paint)
+
+        private fun createAnimator(): ValueAnimator {
+            return ValueAnimator.ofFloat(0f, Float.MAX_VALUE).apply {
+                repeatCount = ValueAnimator.INFINITE
+                addUpdateListener {
+                    speed -= WAVE_SPEED
+                    createPath()
+                    invalidate()
+                }
+            }
+        }
+
+        private fun createPath() {
+            path.reset()
+            paint.color = Color.parseColor("#203354")
+            path.moveTo(0f, height.toFloat())
+            path.lineTo(0f, amplitude)
+            path.lineTo(0f, amplitude - 10)
+            var i = 0
+            while (i < width + 10) {
+                val wx = i.toFloat()
+                val wy = amplitude * 2 + amplitude * sin((i + 10) * Math.PI / WAVE_AMOUNT_ON_SCREEN + speed).toFloat()
+                path.lineTo(wx, wy)
+                i += 10
+            }
+            path.lineTo(width.toFloat(), height.toFloat())
+            path.close()
+        }
+
+        override fun onDetachedFromWindow() {
+            animator?.cancel()
+            super.onDetachedFromWindow()
+        }
+
+        companion object {
+            const val WAVE_SPEED = 0.25f
+            const val WAVE_AMOUNT_ON_SCREEN = 350
+        }
+
+        private fun Float.toDp() = this * context.resources.displayMetrics.density
 
         override fun reset() {
-            cancelAnimation()
-            playAnimation()
         }
 
         override fun refreshing() {
         }
 
         override fun refreshComplete() {
-            cancelAnimation()
+            animator?.cancel()
         }
 
         override fun pullToRefresh() {
-            playAnimation()
+            animator = createAnimator().apply {
+                start()
+            }
         }
 
         override fun releaseToRefresh() {
@@ -123,20 +179,22 @@ SSPullToRefresh uses lottie animations to render high quality animations on pull
         }
 }
 ```
-* Provide you CustomView by setRefreshView() method
+* Provide your CustomView by setRefreshView() method
 ```kotlin
-        ssPullRefresh.setRefreshView(
-                MytAnimationView(this),
-                ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,300)
-        )
+        ssPullRefresh.setRefreshView(WaveAnimation(this))
 ```
-* You can aslo provide only view without parameters, in that case refreshView will take MATCH_PARENT,70 width,hight respectively
+* Provide layoutParams if you need to channge RefreshView height/width
 ```kotlin
-        ssPullRefresh.setRefreshView(MytAnimationView(this))
+         ssPullRefresh.setRefreshViewParams(ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,300))
+```
+* Set Gif animation just by using setGifAnimation method ( This can only be done on SSAnimationView )
+```kotlin
+         ssPullRefresh.setGifAnimation(R.raw.bird)
 ```
 
 # Other Library used:
 * [Lottie][lottie-repo-url]
+* [android-gif-drawable][gif-lib-repo]
 
 ### Credits:
 - This library was inspired by __[RecyclerRefreshLayout]__
@@ -147,8 +205,11 @@ Support it by joining __[stargazers]__ for this repository.⭐
 ## 🤝 How to Contribute
 
 Whether you're helping us fix bugs, improve the docs, or a feature request, we'd love to have you! 💪
-
 Check out our __[Contributing Guide]__ for ideas on contributing.
+
+
+# iOS Library:
+* Check our iOS Library also - [SSCustomPullToRefresh][SSCustomPullToRefresh]
 
 ## Bugs and Feedback
 
@@ -177,3 +238,5 @@ Copyright 2021 Simform Solutions
    [Contributing Guide]: <https://github.com/SimformSolutionsPvtLtd/SSPullToRefresh/blob/main/CONTRIBUTING.md>
    [GitHub Issues]: <https://github.com/SimformSolutionsPvtLtd/SSPullToRefresh/issues>
    [RecyclerRefreshLayout]: <https://github.com/dinuscxj/RecyclerRefreshLayout?utm_source=android-arsenal.com&utm_medium=referral&utm_campaign=3383>
+   [gif-lib-repo]: <https://github.com/koral--/android-gif-drawable.git>
+   [SSCustomPullToRefresh]: <https://github.com/SimformSolutionsPvtLtd/SSCustomPullToRefresh.git>
