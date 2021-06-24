@@ -4,7 +4,8 @@
 
 [![Build Status](https://travis-ci.org/joemccann/dillinger.svg?branch=master)][git-repo-url] [![](https://jitpack.io/v/SimformSolutionsPvtLtd/SSPullToRefresh.svg)](https://jitpack.io/#SimformSolutionsPvtLtd/SSPullToRefresh) [![Kotlin Version](https://img.shields.io/badge/Kotlin-v1.5.10-blue.svg)](https://kotlinlang.org)  [![Platform](https://img.shields.io/badge/Platform-Android-green.svg?style=flat)](https://www.android.com/) [![API](https://img.shields.io/badge/API-17%2B-brightgreen.svg?style=flat)](https://android-arsenal.com/api?level=17)
 
-SSPullToRefresh uses lottie animations to render high quality animations on pull refresh.
+SSPullToRefresh makes PullRefresh easy to use, you can provide your own custom animations or set simple gifs on refresh view.
+The best feature is Lottie animations in refresh view, it uses lottie animations to render high quality animations on pull refresh.
 
 ## Features
 
@@ -18,15 +19,15 @@ SSPullToRefresh uses lottie animations to render high quality animations on pull
 
 | Default refreshView | Lottie animation 1 |
 |--|--|
-| ![](gif/default_anim.gif) | ![](gif/custom_anim.gif) |
+| ![](gifs/default_anim.gif) | ![](gifs/custom_anim.gif) |
 
 | Lottie animation 2 | Wave animation ( Custom class ) |
 |--|--|
-| ![](gif/custom_anim2.gif) | ![](gif/wave_anim.gif) |
+| ![](gifs/custom_anim2.gif) | ![](gifs/wave_anim.gif) |
 
 | Gif animation |
 |--|
-| ![](gif/gif_anim.gif) |
+| ![](gifs/gif_anim.gif) |
 
 # How it works:
 
