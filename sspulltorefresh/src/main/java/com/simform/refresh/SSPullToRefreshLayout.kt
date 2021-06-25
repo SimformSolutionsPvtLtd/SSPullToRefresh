@@ -1,6 +1,7 @@
 package com.simform.refresh
 
 import android.animation.ValueAnimator
+import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Build
 import android.util.AttributeSet
@@ -27,6 +28,8 @@ class SSPullToRefreshLayout(context: Context?, attrs: AttributeSet? = null) :
     ViewGroup(context, attrs), NestedScrollingParent, NestedScrollingChild {
 
     private val logTag = this.javaClass.name
+    private val ssAnimViewLottieMethodError = "For this method to use you need to Provide SSAnimationView as RefreshView"
+    private val lottieAnimViewGifMethodError = "For this method to use you need to Provide SSLottieAnimationView as RefreshView"
 
     // NestedScroll
     private var mTotalUnconsumed = 0f
@@ -68,13 +71,15 @@ class SSPullToRefreshLayout(context: Context?, attrs: AttributeSet? = null) :
     private var mRefreshViewMeasured = false
     private var mRefreshStyle: RefreshStyle = RefreshStyle.NORMAL
     private var mTarget: View? = null
-    private var mRefreshView: SSAnimationView
+    private var mRefreshView: View
     private var mDragDistanceConverter: SSDragDistanceConverter
     private var mLottieAnimationAssetFileName: String = "lottie_rolling_dots.json"
+    private var mRefreshLayoutParams: ViewGroup.LayoutParams
 
     init {
         val metrics = resources.displayMetrics
         mRefreshViewSize = (DEFAULT_REFRESH_SIZE_DP * metrics.density).toInt()
+        mRefreshLayoutParams = MarginLayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, mRefreshViewSize)
         mRefreshTargetOffset = DEFAULT_REFRESH_TARGET_OFFSET_DP * metrics.density
         mNestedScrollingParentHelper = NestedScrollingParentHelper(this)
         mNestedScrollingChildHelper = NestedScrollingChildHelper(this)
@@ -83,7 +88,7 @@ class SSPullToRefreshLayout(context: Context?, attrs: AttributeSet? = null) :
 
         // init mRefreshView
         mRefreshView = DefaultAnimationView(getContext())
-        mRefreshView.setAnimation(mLottieAnimationAssetFileName)
+        (mRefreshView as SSLottieAnimationView).setAnimation(mLottieAnimationAssetFileName)
         mRefreshView.visibility = GONE
         val layoutParams = LayoutParams(mRefreshViewSize, mRefreshViewSize)
         addView(mRefreshView, layoutParams)
@@ -145,7 +150,7 @@ class SSPullToRefreshLayout(context: Context?, attrs: AttributeSet? = null) :
 
         override fun onAnimationStart(animation: Animation) {
             mIsAnimatingToStart = true
-            mRefreshView.refreshing()
+            (mRefreshView as RefreshCallbacks).refreshing()
         }
 
         override fun onAnimationRepeat(animation: Animation) {}
@@ -161,7 +166,7 @@ class SSPullToRefreshLayout(context: Context?, attrs: AttributeSet? = null) :
 
         override fun onAnimationStart(animation: Animation) {
             mIsAnimatingToStart = true
-            mRefreshView.refreshComplete()
+            (mRefreshView as RefreshCallbacks).refreshComplete()
         }
 
         override fun onAnimationRepeat(animation: Animation) {}
@@ -180,7 +185,7 @@ class SSPullToRefreshLayout(context: Context?, attrs: AttributeSet? = null) :
     private fun reset() {
         setTargetOrRefreshViewToInitial()
         mCurrentTouchOffsetY = 0.0f
-        mRefreshView.reset()
+        (mRefreshView as RefreshCallbacks).reset()
         mRefreshView.visibility = GONE
         mIsRefreshing = false
         mIsAnimatingToStart = false
@@ -198,7 +203,8 @@ class SSPullToRefreshLayout(context: Context?, attrs: AttributeSet? = null) :
      * @param layoutParams the with is always the match_parent， no matter how you set
      * the height you need to set a specific value
      */
-    fun setRefreshView(refreshView: SSAnimationView, layoutParams: ViewGroup.LayoutParams? = null) {
+    @SuppressLint("ResourceType")
+    fun setRefreshView(refreshView: View) {
         if (mRefreshView === refreshView) {
             return
         }
@@ -206,18 +212,47 @@ class SSPullToRefreshLayout(context: Context?, attrs: AttributeSet? = null) :
             (mRefreshView.parent as ViewGroup).removeView(mRefreshView)
         }
         refreshView.visibility = GONE
-        if (layoutParams == null) {
-            addView(refreshView, LayoutParams(mRefreshViewSize, mRefreshViewSize))
-        } else {
-            addView(refreshView, layoutParams)
+        addView(refreshView, mRefreshLayoutParams)
+        when(refreshView) {
+            is SSAnimationView -> { }
+            is SSLottieAnimationView -> {
+                refreshView.setAnimation(mLottieAnimationAssetFileName)
+            }
+            else -> {
+                throw ClassCastException("Need SSLottieAnimationView or SSGifAnimationView as RefreshView")
+            }
         }
         mRefreshView = refreshView
-        mRefreshView.setAnimation(mLottieAnimationAssetFileName)
+    }
+
+    fun setRefreshViewParams(params: ViewGroup.LayoutParams) {
+        mRefreshLayoutParams = params
+        mRefreshView.layoutParams = MarginLayoutParams(params.width, params.height)
     }
 
     fun setLottieAnimation(assetFileName: String) {
         mLottieAnimationAssetFileName = assetFileName
-        mRefreshView.setAnimation(assetFileName)
+        if (mRefreshView is SSLottieAnimationView) {
+            (mRefreshView as SSLottieAnimationView).setAnimation(mLottieAnimationAssetFileName)
+        } else {
+            throw java.lang.Exception(ssAnimViewLottieMethodError)
+        }
+    }
+
+    fun setGifAnimation(rawResource: Int) {
+        if (mRefreshView is SSAnimationView) {
+            mRefreshView.setBackgroundResource(rawResource)
+        } else {
+            throw java.lang.Exception(lottieAnimViewGifMethodError)
+        }
+    }
+
+    fun setImageAsRefresh(imageResource: Int) {
+        if (mRefreshView is SSAnimationView) {
+            (mRefreshView as SSAnimationView).setImageResource(imageResource)
+        } else {
+            throw java.lang.Exception(lottieAnimViewGifMethodError)
+        }
     }
 
     fun setDragDistanceConverter(dragDistanceConverter: SSDragDistanceConverter) {
@@ -225,15 +260,35 @@ class SSPullToRefreshLayout(context: Context?, attrs: AttributeSet? = null) :
     }
 
     fun setRepeatCount(count: RepeatCount) {
-        mRefreshView.repeatCount = count.count
+        if (mRefreshView is SSLottieAnimationView) {
+            (mRefreshView as SSLottieAnimationView).repeatCount = count.count
+        } else {
+            throw java.lang.Exception(ssAnimViewLottieMethodError)
+        }
     }
 
     fun setRepeatMode(mode: RepeatMode) {
-        mRefreshView.repeatMode = mode.mode
+        if (mRefreshView is SSLottieAnimationView) {
+            (mRefreshView as SSLottieAnimationView).repeatMode = mode.mode
+        } else {
+            throw java.lang.Exception(ssAnimViewLottieMethodError)
+        }
     }
 
     enum class RepeatCount(val count: Int) {
-        INFINITE(ValueAnimator.INFINITE)
+        INFINITE(ValueAnimator.INFINITE),
+        ONCE(1),
+        TWICE(2),
+        THRICE(3),
+        FOUR(4),
+        FIVE(5),
+        SIX(6),
+        SEVEN(7),
+        EIGHT(8),
+        NINE(9),
+        TEN(10),
+        ELEVEN(11),
+        TWELVE(12),
     }
 
     enum class RepeatMode(val mode: Int) {
@@ -874,10 +929,10 @@ class SSPullToRefreshLayout(context: Context?, attrs: AttributeSet? = null) :
         if (!mIsRefreshing) {
             if (convertScrollOffset > refreshTargetOffset && !mIsFitRefresh) {
                 mIsFitRefresh = true
-                mRefreshView.pullToRefresh()
+                (mRefreshView as RefreshCallbacks).pullToRefresh()
             } else if (convertScrollOffset <= refreshTargetOffset && mIsFitRefresh) {
                 mIsFitRefresh = false
-                mRefreshView.releaseToRefresh()
+                (mRefreshView as RefreshCallbacks).releaseToRefresh()
             }
         }
         Log.i(logTag,
@@ -938,11 +993,11 @@ class SSPullToRefreshLayout(context: Context?, attrs: AttributeSet? = null) :
         }
         Log.i(logTag, "current offset$mTargetOrRefreshViewOffsetY")
         when (mRefreshStyle) {
-            RefreshStyle.FLOAT -> mRefreshView.pullProgress(
+            RefreshStyle.FLOAT -> (mRefreshView as RefreshCallbacks).pullProgress(
                 mTargetOrRefreshViewOffsetY,
                 (mTargetOrRefreshViewOffsetY - mRefreshInitialOffset) / mRefreshTargetOffset
             )
-            else -> mRefreshView.pullProgress(
+            else -> (mRefreshView as RefreshCallbacks).pullProgress(
                 mTargetOrRefreshViewOffsetY,
                 mTargetOrRefreshViewOffsetY / mRefreshTargetOffset
             )

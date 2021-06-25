@@ -2,7 +2,7 @@ package com.simform.refresh
 
 import android.content.Context
 
-class DefaultAnimationView(context: Context): SSAnimationView(context) {
+class DefaultAnimationView(context: Context): SSLottieAnimationView(context) {
 
     override fun reset() {
         cancelAnimation()
