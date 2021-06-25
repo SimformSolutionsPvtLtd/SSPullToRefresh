@@ -1,7 +1,6 @@
 <a href="https://www.simform.com/"><img src="https://github.com/SimformSolutionsPvtLtd/SSToastMessage/blob/master/simformBanner.png"></a>
 # SSPullToRefresh
 ## Pull to Refresh with custom animations
-
 [![Build Status](https://travis-ci.org/joemccann/dillinger.svg?branch=master)][git-repo-url] [![](https://jitpack.io/v/SimformSolutionsPvtLtd/SSPullToRefresh.svg)](https://jitpack.io/#SimformSolutionsPvtLtd/SSPullToRefresh) [![Kotlin Version](https://img.shields.io/badge/Kotlin-v1.5.10-blue.svg)](https://kotlinlang.org)  [![Platform](https://img.shields.io/badge/Platform-Android-green.svg?style=flat)](https://www.android.com/) [![API](https://img.shields.io/badge/API-17%2B-brightgreen.svg?style=flat)](https://android-arsenal.com/api?level=17)
 
 SSPullToRefresh makes PullRefresh easy to use, you can provide your own custom animations or set simple gifs on refresh view.
@@ -10,24 +9,20 @@ The best feature is Lottie animations in refresh view, it uses lottie animations
 ## Features
 
 - Simple and easy to use ( no complex animations to deal with )
-- Customize the animation view by providing your own custom RefreshView ( need to subclass SSAnimationView )
+- Customize the animation view by providing your own custom RefreshView (need to subclass SSAnimationView)
 - Set Gif animations in refresh view
 - Import lottie jason in assets folder and apply animation ( as simple as that )
 - Customize repeateMode, repeateCount and Interpolators on different points of animations
 
 # 🎬 Preview
 
-| Default refreshView | Lottie animation 1 |
-|--|--|
-| ![](gifs/default_anim.gif) | ![](gifs/custom_anim.gif) |
+| Default refreshView | Lottie animation 1 | Lottie animation 2 |
+|--|--|--|
+| ![](gifs/default_anim.gif) | ![](gifs/custom_anim.gif) | ![](gifs/custom_anim2.gif) |
 
-| Lottie animation 2 | Wave animation ( Custom class ) |
+| Wave animation (Custom class) | Gif animation |
 |--|--|
-| ![](gifs/custom_anim2.gif) | ![](gifs/wave_anim.gif) |
-
-| Gif animation |
-|--|
-| ![](gifs/gif_anim.gif) |
+| ![](gifs/wave_anim.gif) |![](gifs/gif_anim.gif) |
 
 # How it works:
 
