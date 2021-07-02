@@ -11,7 +11,7 @@ The best feature is Lottie animations in refresh view, it uses lottie animations
 - Simple and easy to use ( no complex animations to deal with )
 - Customize the animation view by providing your own custom RefreshView (need to subclass SSAnimationView)
 - Set Gif animations in refresh view
-- Import lottie jason in assets folder and apply animation ( as simple as that )
+- Import lottie json in assets folder and apply animation ( as simple as that )
 - Customize repeateMode, repeateCount and Interpolators on different points of animations
 
 # 🎬 Preview
