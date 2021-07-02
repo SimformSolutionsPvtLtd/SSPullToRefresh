@@ -2,6 +2,7 @@
 # SSPullToRefresh
 ## Pull to Refresh with custom animations
 [![Build Status](https://travis-ci.org/joemccann/dillinger.svg?branch=master)][git-repo-url] [![](https://jitpack.io/v/SimformSolutionsPvtLtd/SSPullToRefresh.svg)](https://jitpack.io/#SimformSolutionsPvtLtd/SSPullToRefresh) [![Kotlin Version](https://img.shields.io/badge/Kotlin-v1.5.10-blue.svg)](https://kotlinlang.org)  [![Platform](https://img.shields.io/badge/Platform-Android-green.svg?style=flat)](https://www.android.com/) [![API](https://img.shields.io/badge/API-17%2B-brightgreen.svg?style=flat)](https://android-arsenal.com/api?level=17)
+[![Android Arsenal]( https://img.shields.io/badge/Android%20Arsenal-SSPullToRefresh-green.svg?style=flat )](https://android-arsenal.com/details/1/8247)
 
 SSPullToRefresh makes PullRefresh easy to use, you can provide your own custom animations or set simple gifs on refresh view.
 The best feature is Lottie animations in refresh view, it uses lottie animations to render high quality animations on pull refresh.
