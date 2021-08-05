@@ -31,8 +31,10 @@ class MainActivity : AppCompatActivity() {
         ssPullRefresh.setOnRefreshListener(object : SSPullToRefreshLayout.OnRefreshListener {
             override fun onRefresh() {
                 GlobalScope.launch {
-                    delay(5000)
-                    ssPullRefresh.setRefreshing(false)
+                    delay(3000)
+                    runOnUiThread {
+                        ssPullRefresh.setRefreshing(false)
+                    }
                     MainScope().launch {
                         adapter.randomizeData()
                         Toast.makeText(this@MainActivity,"Refresh Complete",Toast.LENGTH_SHORT).show()
@@ -51,6 +53,9 @@ class MainActivity : AppCompatActivity() {
         ssPullRefresh.setRepeatCount(SSPullToRefreshLayout.RepeatCount.INFINITE)
         //set style of RefreshLayout : NORMAL, FLOAT, PINNED
         ssPullRefresh.setRefreshStyle(SSPullToRefreshLayout.RefreshStyle.NORMAL)
+
+//        ssPullRefresh.setRefreshInitialOffset(100f)
+        ssPullRefresh.setRefreshStyle(SSPullToRefreshLayout.RefreshStyle.FLOAT)
     }
 
     private fun setUpRecyclerView() {
