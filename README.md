@@ -42,7 +42,7 @@ The best feature is Lottie animations in refresh view, it uses lottie animations
 
 ```groovy
     dependencies {
-        implementation 'com.github.SimformSolutionsPvtLtd:SSPullToRefresh:1.2'
+        implementation 'com.github.SimformSolutionsPvtLtd:SSPullToRefresh:1.3'
     }
 ```
 2. Wrap your refreshing view ( RecyclerView, listView etc..) with SSPullToRefreshLayout

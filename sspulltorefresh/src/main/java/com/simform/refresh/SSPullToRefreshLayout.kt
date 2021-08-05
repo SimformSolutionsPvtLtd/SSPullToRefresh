@@ -1002,7 +1002,7 @@ class SSPullToRefreshLayout(context: Context?, attrs: AttributeSet? = null) :
                 mTargetOrRefreshViewOffsetY / mRefreshTargetOffset
             )
         }
-        if (mRefreshView.visibility != VISIBLE) {
+        if (mCurrentTouchOffsetY != 0f && mRefreshView.visibility != VISIBLE) {
             mRefreshView.visibility = VISIBLE
         }
         invalidate()
