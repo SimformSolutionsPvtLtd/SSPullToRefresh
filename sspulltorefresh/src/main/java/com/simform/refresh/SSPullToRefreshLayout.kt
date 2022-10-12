@@ -1,7 +1,6 @@
 package com.simform.refresh
 
 import android.animation.ValueAnimator
-import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Build
 import android.util.AttributeSet
@@ -58,7 +57,6 @@ class SSPullToRefreshLayout(context: Context?, attrs: AttributeSet? = null) :
     private var mActivePointerId = INVALID_POINTER
     private var mAnimateToStartDuration = DEFAULT_ANIMATE_DURATION
     private var mAnimateToRefreshDuration = DEFAULT_ANIMATE_DURATION
-    private val mTouchSlop = ViewConfiguration.get(context).scaledTouchSlop
     private val mRefreshViewSize: Int
 
     // Whether the client has set a custom refreshing position
@@ -200,10 +198,7 @@ class SSPullToRefreshLayout(context: Context?, attrs: AttributeSet? = null) :
 
     /**
      * @param refreshView  must implements the interface IRefreshStatus
-     * @param layoutParams the with is always the match_parent， no matter how you set
-     * the height you need to set a specific value
      */
-    @SuppressLint("ResourceType")
     fun setRefreshView(refreshView: View) {
         if (mRefreshView === refreshView) {
             return
@@ -831,12 +826,13 @@ class SSPullToRefreshLayout(context: Context?, attrs: AttributeSet? = null) :
 
     private fun initDragStatus(activeMoveY: Float) {
         val diff = activeMoveY - mInitialDownY
-        if (mIsRefreshing && (diff > mTouchSlop || mTargetOrRefreshViewOffsetY > 0)) {
+        val touchSlop = ViewConfiguration.get(context).scaledTouchSlop
+        if (mIsRefreshing && (diff > touchSlop || mTargetOrRefreshViewOffsetY > 0)) {
             mIsBeingDragged = true
-            mInitialMotionY = mInitialDownY + mTouchSlop
+            mInitialMotionY = mInitialDownY + touchSlop
             //scroll direction: from up to down
-        } else if (!mIsBeingDragged && diff > mTouchSlop) {
-            mInitialMotionY = mInitialDownY + mTouchSlop
+        } else if (!mIsBeingDragged && diff > touchSlop) {
+            mInitialMotionY = mInitialDownY + touchSlop
             mIsBeingDragged = true
         }
     }
@@ -1100,7 +1096,6 @@ class SSPullToRefreshLayout(context: Context?, attrs: AttributeSet? = null) :
     class LayoutParams : MarginLayoutParams {
         constructor(c: Context?, attrs: AttributeSet?) : super(c, attrs)
         constructor(width: Int, height: Int) : super(width, height)
-        constructor(source: MarginLayoutParams?) : super(source)
         constructor(source: ViewGroup.LayoutParams?) : super(source)
     }
 
