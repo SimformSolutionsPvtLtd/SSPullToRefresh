@@ -41,7 +41,8 @@ class WaveAnimation(context: Context): SSAnimationView(context) {
         var i = 0
         while (i < width + 10) {
             val wx = i.toFloat()
-            val wy = amplitude * 2 + amplitude * sin((i + 10) * Math.PI / WAVE_AMOUNT_ON_SCREEN + speed).toFloat()
+            val sinComponent = sin((i + 10) * Math.PI / WAVE_AMOUNT_ON_SCREEN + speed).toFloat()
+            val wy = amplitude * (2 + sinComponent)
             path.lineTo(wx, wy)
             i += 10
         }
