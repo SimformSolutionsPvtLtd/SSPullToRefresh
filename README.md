@@ -78,7 +78,7 @@ dependencies {
 ```
 3. Set OnRefreshListener on SSPullToRefreshLayout and you are good to go 👍
 ```kotlin
-ssPullRefresh.setOnRefreshListener(object : SSPullToRefreshLayout.OnRefreshListener {
+ssPullRefresh.setOnRefreshListener {
    override fun onRefresh() {
       CoroutineScope(Dispatchers.Main).launch {
          delay(2000)
@@ -91,7 +91,7 @@ ssPullRefresh.setOnRefreshListener(object : SSPullToRefreshLayout.OnRefreshListe
          ).show()
       }
    }
-})
+}
 ```
 
 # To customize SSPullToRefreshLayout:
