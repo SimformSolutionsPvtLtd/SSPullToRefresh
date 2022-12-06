@@ -1086,7 +1086,7 @@ class SSPullToRefreshLayout(context: Context?, attrs: AttributeSet? = null) :
         mOnRefreshListener = listener
     }
 
-    interface OnRefreshListener {
+    fun interface OnRefreshListener {
         fun onRefresh()
     }
 
