@@ -79,17 +79,15 @@ dependencies {
 3. Set OnRefreshListener on SSPullToRefreshLayout and you are good to go 👍
 ```kotlin
 ssPullRefresh.setOnRefreshListener {
-   override fun onRefresh() {
-      CoroutineScope(Dispatchers.Main).launch {
-         delay(2000)
-         ssPullRefresh.setRefreshing(false) // This stops refreshing
-         mAdapter.randomizeData()
-         Toast.makeText(
-            this@MainActivity,
-            "Refresh Complete",
-            Toast.LENGTH_SHORT
-         ).show()
-      }
+   CoroutineScope(Dispatchers.Main).launch {
+      delay(2000)
+      ssPullRefresh.setRefreshing(false) // This stops refreshing
+      mAdapter.randomizeData()
+      Toast.makeText(
+         this@MainActivity,
+         "Refresh Complete",
+         Toast.LENGTH_SHORT
+      ).show()
    }
 }
 ```
