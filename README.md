@@ -51,7 +51,7 @@ dependencyResolutionManagement {
 
 ```groovy
 dependencies {
-    implementation 'com.github.SimformSolutionsPvtLtd:SSPullToRefresh:1.3'
+    implementation 'com.github.SimformSolutionsPvtLtd:SSPullToRefresh:1.4'
 }
 ```
 2. Wrap your refreshing view (RecyclerView, listView etc..) with SSPullToRefreshLayout
