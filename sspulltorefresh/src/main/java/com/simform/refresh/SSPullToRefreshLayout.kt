@@ -208,15 +208,8 @@ class SSPullToRefreshLayout(context: Context?, attrs: AttributeSet? = null) :
         }
         refreshView.visibility = GONE
         addView(refreshView, mRefreshLayoutParams)
-        when(refreshView) {
-            is SSAnimationView -> { }
-            is SSLottieAnimationView -> {
-                refreshView.setAnimation(mLottieAnimationAssetFileName)
-            }
-            else -> {
-                throw ClassCastException("Need SSLottieAnimationView or SSGifAnimationView as RefreshView")
-            }
-        }
+        if (refreshView !is RefreshCallbacks) throw ClassCastException("RefreshView must implement RefreshCallbacks")
+        if (refreshView is SSLottieAnimationView) refreshView.setAnimation(mLottieAnimationAssetFileName)
         mRefreshView = refreshView
     }
 
@@ -685,7 +678,7 @@ class SSPullToRefreshLayout(context: Context?, attrs: AttributeSet? = null) :
             else -> {
             }
         }
-        return mIsBeingDragged
+        return if (mRefreshView.hasPoint(ev.rawX.toInt(), ev.rawY.toInt())) false else mIsBeingDragged
     }
 
     override fun onTouchEvent(ev: MotionEvent): Boolean {
