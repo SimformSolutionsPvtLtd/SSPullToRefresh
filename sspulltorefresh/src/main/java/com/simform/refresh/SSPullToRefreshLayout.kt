@@ -87,7 +87,6 @@ class SSPullToRefreshLayout(context: Context?, attrs: AttributeSet? = null) :
         // init mRefreshView
         mRefreshView = DefaultAnimationView(getContext())
         (mRefreshView as SSLottieAnimationView).setAnimation(mLottieAnimationAssetFileName)
-        mRefreshView.visibility = GONE
         val layoutParams = LayoutParams(mRefreshViewSize, mRefreshViewSize)
         addView(mRefreshView, layoutParams)
 
@@ -206,7 +205,6 @@ class SSPullToRefreshLayout(context: Context?, attrs: AttributeSet? = null) :
         if (mRefreshView.parent != null) {
             (mRefreshView.parent as ViewGroup).removeView(mRefreshView)
         }
-        refreshView.visibility = GONE
         addView(refreshView, mRefreshLayoutParams)
         if (refreshView !is RefreshCallbacks) throw ClassCastException("RefreshView must implement RefreshCallbacks")
         if (refreshView is SSLottieAnimationView) refreshView.setAnimation(mLottieAnimationAssetFileName)
