@@ -183,7 +183,6 @@ class SSPullToRefreshLayout(context: Context?, attrs: AttributeSet? = null) :
         setTargetOrRefreshViewToInitial()
         mCurrentTouchOffsetY = 0.0f
         (mRefreshView as RefreshCallbacks).reset()
-        mRefreshView.visibility = GONE
         mIsRefreshing = false
         mIsAnimatingToStart = false
     }
