@@ -1,7 +1,7 @@
 <a href="https://www.simform.com/"><img src="https://github.com/SimformSolutionsPvtLtd/SSToastMessage/blob/master/simformBanner.png"></a>
 # SSPullToRefresh
 ## Pull to Refresh with custom animations
-[![Build Status](https://travis-ci.org/joemccann/dillinger.svg?branch=master)][git-repo-url] [![](https://jitpack.io/v/SimformSolutionsPvtLtd/SSPullToRefresh.svg)](https://jitpack.io/#SimformSolutionsPvtLtd/SSPullToRefresh) [![Kotlin Version](https://img.shields.io/badge/Kotlin-v1.7.10-blue.svg)](https://kotlinlang.org)  [![Platform](https://img.shields.io/badge/Platform-Android-green.svg?style=flat)](https://www.android.com/) [![API](https://img.shields.io/badge/API-17%2B-brightgreen.svg?style=flat)](https://android-arsenal.com/api?level=17)
+[![](https://jitpack.io/v/SimformSolutionsPvtLtd/SSPullToRefresh.svg)](https://jitpack.io/#SimformSolutionsPvtLtd/SSPullToRefresh) [![Kotlin Version](https://img.shields.io/badge/Kotlin-v1.7.10-blue.svg)](https://kotlinlang.org)  [![Platform](https://img.shields.io/badge/Platform-Android-green.svg?style=flat)](https://www.android.com/) [![API](https://img.shields.io/badge/API-17%2B-brightgreen.svg?style=flat)](https://android-arsenal.com/api?level=17)
 
 SSPullToRefresh makes PullRefresh easy to use, you can provide your own custom animations or set simple gifs on refresh view.
 The best feature is Lottie animations in refresh view, it uses lottie animations to render high quality animations on pull refresh.
@@ -9,7 +9,7 @@ The best feature is Lottie animations in refresh view, it uses lottie animations
 ## Features
 
 - Simple and easy to use (no complex animations to deal with)
-- Customize the animation view by providing your own custom RefreshView (need to subclass SSAnimationView)
+- Customize the animation view by providing your own custom interactive RefreshViews (need to implement [RefreshCallbacks][RefreshCallbacksFile])
 - Set Gif animations in refresh view
 - Import lottie json in assets folder and apply animation (as simple as that)
 - Customize repeatMode, repeatCount and Interpolator on different points of animations
@@ -18,11 +18,15 @@ The best feature is Lottie animations in refresh view, it uses lottie animations
 
 | Default refreshView | Gif animation | Wave animation (Custom class) |
 |--|--|--|
-| <a href="gifs/default.gif">![](gifs/default.gif)</a> | <a href="https://github.com/SimformSolutionsPvtLtd/SSPullToRefresh/blob/529aabcc07246c0d9220f9e93ad85d8509c130f0/sspulltorefresh/src/main/java/com/simform/refresh/SSPullToRefreshLayout.kt#L237">![](gifs/gif.gif)</a> | <a href="app/src/main/java/com/simform/demo/WaveAnimation.kt">![](gifs/wave.gif)</a> |
+| ![](gifs/default.gif) | <a href="sspulltorefresh/src/main/java/com/simform/refresh/SSPullToRefreshLayout.kt#L227">![](gifs/gif.gif)</a> | <a href="app/src/main/java/com/simform/demo/WaveAnimation.kt">![](gifs/wave.gif)</a> |
 
 | Lottie animation 1 | Lottie animation 2 |  Lottie animation 3  |
 |--|--|--|
-| <a href="https://github.com/SimformSolutionsPvtLtd/SSPullToRefresh/blob/529aabcc07246c0d9220f9e93ad85d8509c130f0/sspulltorefresh/src/main/java/com/simform/refresh/SSPullToRefreshLayout.kt#L228">![](gifs/plane.gif)</a> | <a href="https://github.com/SimformSolutionsPvtLtd/SSPullToRefresh/blob/529aabcc07246c0d9220f9e93ad85d8509c130f0/sspulltorefresh/src/main/java/com/simform/refresh/SSPullToRefreshLayout.kt#L228">![](gifs/clock.gif)</a> | <a href="https://github.com/SimformSolutionsPvtLtd/SSPullToRefresh/blob/529aabcc07246c0d9220f9e93ad85d8509c130f0/sspulltorefresh/src/main/java/com/simform/refresh/SSPullToRefreshLayout.kt#L228">![](gifs/virus.gif)</a> |
+| <a href="sspulltorefresh/src/main/java/com/simform/refresh/SSPullToRefreshLayout.kt#L218">![](gifs/plane.gif)</a> | <a href="sspulltorefresh/src/main/java/com/simform/refresh/SSPullToRefreshLayout.kt#L218">![](gifs/clock.gif)</a> | <a href="sspulltorefresh/src/main/java/com/simform/refresh/SSPullToRefreshLayout.kt#L218">![](gifs/virus.gif)</a> |
+
+| Custom view with user interactions |
+|--|
+| <a href="app/src/main/java/com/simform/demo/CustomView.kt">![](gifs/userinteractive.gif)</a> |
 
 # How it works:
 
@@ -115,8 +119,8 @@ ssPullRefresh.setRefreshStyle(SSPullToRefreshLayout.RefreshStyle.NORMAL)
 ```
 * To customize the whole refresh view you need to inherit SSAnimationView for your custom class and override the methods needed
 
-   Here is an example class
-[WaveAnimation][WaveAnimationFile].
+  Here is an example class
+  [WaveAnimation][WaveAnimationFile].
 * Provide your CustomView by setRefreshView() method
 ```kotlin
 ssPullRefresh.setRefreshView(WaveAnimation(this))
@@ -189,12 +193,13 @@ SOFTWARE.
 
 [//]: # (These are reference links used in the body of this note and get stripped out when the markdown processor does its job. There is no need to format nicely because it shouldn't be seen. Thanks SO - http://stackoverflow.com/questions/4823468/store-comments-in-markdown-syntax)
 
-   [git-repo-url]: <https://github.com/SimformSolutionsPvtLtd/SSPullToRefresh.git>
-   [lottie-repo-url]: <https://github.com/airbnb/lottie-android.git>
-   [stargazers]: <https://github.com/SimformSolutionsPvtLtd/SSPullToRefresh/stargazers>
-   [Contributing Guide]: <https://github.com/SimformSolutionsPvtLtd/SSPullToRefresh/blob/main/CONTRIBUTING.md>
-   [GitHub Issues]: <https://github.com/SimformSolutionsPvtLtd/SSPullToRefresh/issues>
-   [RecyclerRefreshLayout]: <https://github.com/dinuscxj/RecyclerRefreshLayout?utm_source=android-arsenal.com&utm_medium=referral&utm_campaign=3383>
-   [gif-lib-repo]: <https://github.com/koral--/android-gif-drawable.git>
-   [SSCustomPullToRefresh]: <https://github.com/SimformSolutionsPvtLtd/SSCustomPullToRefresh.git>
-   [WaveAnimationFile]: app/src/main/java/com/simform/demo/WaveAnimation.kt
+  [git-repo-url]: <https://github.com/SimformSolutionsPvtLtd/SSPullToRefresh.git>
+  [lottie-repo-url]: <https://github.com/airbnb/lottie-android.git>
+  [stargazers]: <https://github.com/SimformSolutionsPvtLtd/SSPullToRefresh/stargazers>
+  [Contributing Guide]: <https://github.com/SimformSolutionsPvtLtd/SSPullToRefresh/blob/main/CONTRIBUTING.md>
+  [GitHub Issues]: <https://github.com/SimformSolutionsPvtLtd/SSPullToRefresh/issues>
+  [RecyclerRefreshLayout]: <https://github.com/dinuscxj/RecyclerRefreshLayout?utm_source=android-arsenal.com&utm_medium=referral&utm_campaign=3383>
+  [gif-lib-repo]: <https://github.com/koral--/android-gif-drawable.git>
+  [SSCustomPullToRefresh]: <https://github.com/SimformSolutionsPvtLtd/SSCustomPullToRefresh.git>
+  [WaveAnimationFile]: app/src/main/java/com/simform/demo/WaveAnimation.kt
+  [RefreshCallbacksFile]: sspulltorefresh/src/main/java/com/simform/refresh/RefreshCallbacks.kt
