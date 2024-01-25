@@ -1,5 +1,4 @@
 <resources>
     <string name="app_name">SSPullToRefresh</string>
-    <string name="hello">Hii</string>
     <string name="loading">Loading</string>
 </resources>
