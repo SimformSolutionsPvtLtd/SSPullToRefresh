@@ -46,7 +46,7 @@ dependencies {
     implementation(libs.material)
     implementation(libs.constraintlayout)
     implementation(libs.coroutine)
-    implementation(project(":sspulltorefresh"))
+    implementation("com.github.SimformSolutionsPvtLtd:SSPullToRefresh:1.5.2")
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.test.ext.junit)
