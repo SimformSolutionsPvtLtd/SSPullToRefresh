@@ -55,7 +55,7 @@ dependencyResolutionManagement {
 
 ```groovy
 dependencies {
-    implementation 'com.github.SimformSolutionsPvtLtd:SSPullToRefresh:1.5.1'
+    implementation 'com.github.SimformSolutionsPvtLtd:SSPullToRefresh:1.5.2'
 }
 ```
 2. Wrap your refreshing view (RecyclerView, listView etc..) with SSPullToRefreshLayout
@@ -199,5 +199,5 @@ SOFTWARE.
   [RecyclerRefreshLayout]: <https://github.com/dinuscxj/RecyclerRefreshLayout?utm_source=android-arsenal.com&utm_medium=referral&utm_campaign=3383>
   [gif-lib-repo]: <https://github.com/koral--/android-gif-drawable.git>
   [SSCustomPullToRefresh]: <https://github.com/SimformSolutionsPvtLtd/SSCustomPullToRefresh.git>
-  [WaveAnimationFile]: app/src/main/java/com/simform/demo/WaveAnimation.kt
+  [WaveAnimationFile]: app/src/main/java/com/simform/pulltorefresh/WaveAnimation.kt
   [RefreshCallbacksFile]: sspulltorefresh/src/main/java/com/simform/refresh/RefreshCallbacks.kt

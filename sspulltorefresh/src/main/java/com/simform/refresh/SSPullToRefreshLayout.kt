@@ -394,11 +394,9 @@ class SSPullToRefreshLayout(context: Context?, attrs: AttributeSet? = null) :
     override fun onStartNestedScroll(child: View, target: View, nestedScrollAxes: Int): Boolean {
         return when (mRefreshStyle) {
             RefreshStyle.FLOAT -> (isEnabled
-                    && canChildScrollUp(mTarget)
                     && !mIsRefreshing
                     && nestedScrollAxes and ViewCompat.SCROLL_AXIS_VERTICAL != 0)
             else -> (isEnabled
-                    && canChildScrollUp(mTarget)
                     && nestedScrollAxes and ViewCompat.SCROLL_AXIS_VERTICAL != 0)
         }
     }
@@ -632,11 +630,11 @@ class SSPullToRefreshLayout(context: Context?, attrs: AttributeSet? = null) :
             return false
         }
         when (mRefreshStyle) {
-            RefreshStyle.FLOAT -> if ((!isEnabled || canChildScrollUp(mTarget) || mIsRefreshing || mNestedScrollInProgress)) {
+            RefreshStyle.FLOAT -> if ((!isEnabled || mIsRefreshing || mNestedScrollInProgress)) {
                 // Fail fast if we're not in a state where a swipe is possible
                 return false
             }
-            else -> if ((!isEnabled || (canChildScrollUp(mTarget) && !mDispatchTargetTouchDown))) {
+            else -> if ((!isEnabled || (!mDispatchTargetTouchDown))) {
                 return false
             }
         }
@@ -684,15 +682,15 @@ class SSPullToRefreshLayout(context: Context?, attrs: AttributeSet? = null) :
             return false
         }
         when (mRefreshStyle) {
-            RefreshStyle.FLOAT -> if (!isEnabled || canChildScrollUp(mTarget) || mNestedScrollInProgress) {
+            RefreshStyle.FLOAT -> if (!isEnabled || mNestedScrollInProgress) {
                 // Fail fast if we're not in a state where a swipe is possible
                 return false
             }
-            else -> if ((!isEnabled || (canChildScrollUp(mTarget) && !mDispatchTargetTouchDown))) {
+            else -> if ((!isEnabled || (!mDispatchTargetTouchDown))) {
                 return false
             }
         }
-        if (mRefreshStyle == RefreshStyle.FLOAT && (canChildScrollUp(mTarget) || mNestedScrollInProgress)) {
+        if (mRefreshStyle == RefreshStyle.FLOAT && (mNestedScrollInProgress)) {
             return false
         }
         when (ev.action) {
@@ -1014,22 +1012,6 @@ class SSPullToRefreshLayout(context: Context?, attrs: AttributeSet? = null) :
         return if (index < 0) {
             (-1).toFloat()
         } else ev.getY(index)
-    }
-
-    private fun canChildScrollUp(mTarget: View?): Boolean {
-        if (mTarget == null) {
-            return false
-        }
-        if (mTarget is ViewGroup) {
-            val childCount = mTarget.childCount
-            for (i in 0 until childCount) {
-                val child = mTarget.getChildAt(i)
-                if (canChildScrollUp(child)) {
-                    return true
-                }
-            }
-        }
-        return ViewCompat.canScrollVertically(mTarget, -1)
     }
 
     private fun ensureTarget() {
