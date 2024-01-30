@@ -26,20 +26,18 @@ class MainActivity : AppCompatActivity() {
         with(mBinding) {
             setUpRecyclerView()
             // set setOnRefreshListener on pull refresh view
-            ssPullRefresh.setOnRefreshListener(object : SSPullToRefreshLayout.OnRefreshListener {
-                override fun onRefresh() {
-                    CoroutineScope(Dispatchers.Main).launch {
-                        delay(2000)
-                        ssPullRefresh.setRefreshing(false) // This stops refreshing
-                        mAdapter.randomizeData()
-                        Toast.makeText(
-                            this@MainActivity,
-                            "Refresh Complete",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    }
+            ssPullRefresh.setOnRefreshListener {
+                CoroutineScope(Dispatchers.Main).launch {
+                    delay(2000)
+                    ssPullRefresh.setRefreshing(false) // This stops refreshing
+                    mAdapter.randomizeData()
+                    Toast.makeText(
+                        this@MainActivity,
+                        "Refresh Complete",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
-            })
+            }
 
             // set height and width of refresh view
             ssPullRefresh.setRefreshViewParams(
